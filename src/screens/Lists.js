@@ -7,9 +7,16 @@ const ListDisplay = ({ value, styles }) => <Text style={styles}>{value}</Text>;
 
 const sectionKeyExtractor = (item, index) => item.id + index;
 
-const Lists = () => {
+const Lists = (props) => {
+  const { route } = props;
+  const { id, otherParam } = route.params;
+
   return (
     <View style={[globalStyles.pageWrapper, styles.pageWrapper]}>
+      <Text style={styles.pageHeading}>Route params passed</Text>
+      <Text>
+        id: {id} & otherParam: {otherParam}
+      </Text>
       <Text style={styles.pageHeading}>FlatList: List of categories</Text>
       <FlatList
         data={flatList}

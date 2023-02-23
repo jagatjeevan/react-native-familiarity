@@ -4,6 +4,7 @@ import {
   Image,
   ImageBackground,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,20 +21,22 @@ const BasicComponents = (props) => {
 
   const buttonPressHandler = () => {
     alert('button is pressed');
-    navigation.navigate('Lists');
+    navigation.navigate('Lists', { id: 2, otherParam: Math.floor(Math.random() * 100) });
   };
 
   return (
     <ScrollView>
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        enabled
+      >
         <ImageBackground
           source={require('../../assets/abstract.jpeg')}
           resizeMode="cover"
           style={styles.image}
         >
           <View style={styles.container}>
-            <Text>You entered : {textareaValue}</Text>
-            <Text>This is a basic Text component</Text>
             <View style={styles.button}>
               <Button title="A button component" onPress={buttonPressHandler} />
             </View>
@@ -63,6 +66,8 @@ const BasicComponents = (props) => {
                 placeholder="Write multi lines"
               />
             </View>
+            <Text>You entered : {textareaValue}</Text>
+            <Text>This is a basic Text component</Text>
           </View>
         </ImageBackground>
       </KeyboardAvoidingView>
