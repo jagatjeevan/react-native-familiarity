@@ -2,13 +2,15 @@ import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import BasicComponents from './screens/BasicComponents';
 import Lists from './screens/Lists';
 import Icons from './components/Icons';
 import { StyleSheet } from 'react-native';
 
-const Stack = createNativeStackNavigator();
+// const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export function App() {
   const handleIconPress = () => {
@@ -18,15 +20,15 @@ export function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen
             name="Home"
             component={BasicComponents}
             options={{
               headerTitle: 'Basic Components',
               headerRight: () => (
                 <Icons
-                  name="menu"
+                  name="basket"
                   size="20"
                   color="#3e3e3e"
                   containerStyles={styles.drawerIcon}
@@ -35,8 +37,13 @@ export function App() {
               ),
             }}
           />
-          <Stack.Screen name="Lists" component={Lists} options={{ title: 'Lists' }} />
-        </Stack.Navigator>
+          <Drawer.Screen
+            name="Lists"
+            component={Lists}
+            initialParams={{ id: 2, otherParam: Math.floor(Math.random() * 100) }}
+            options={{ title: 'Lists' }}
+          />
+        </Drawer.Navigator>
       </NavigationContainer>
       <StatusBar style="dark" />
     </>
