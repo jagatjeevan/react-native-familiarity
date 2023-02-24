@@ -8,6 +8,7 @@ import BasicComponents from './screens/BasicComponents';
 import Lists from './screens/Lists';
 import Icons from './components/Icons';
 import { StyleSheet } from 'react-native';
+import LocationScreen from './screens/Location';
 
 // const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,6 +43,11 @@ export function App() {
             component={Lists}
             initialParams={{ id: 2, otherParam: Math.floor(Math.random() * 100) }}
             options={{ title: 'Lists' }}
+          />
+          <Drawer.Screen
+            name="Location"
+            component={LocationScreen}
+            options={{ title: 'My Location' }}
           />
         </Drawer.Navigator>
       </NavigationContainer>
