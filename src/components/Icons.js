@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 const Icons = (props) => {
   const { name, size, color, containerStyles, onPressed, fontSize = 30 } = props;

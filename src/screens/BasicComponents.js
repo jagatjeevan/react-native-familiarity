@@ -1,91 +1,43 @@
-import { useState } from 'react';
-import {
-  Button,
-  Image,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import globalStyles from '../styles/global';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ButtonScreen from './basicComponents/ButtonScreen';
+import TextScreen from './basicComponents/TextScreen';
+import TextAreaScreen from './basicComponents/TextaareaScreen';
+import ImageScreen from './basicComponents/Image';
 
-const BasicComponents = (props) => {
-  const { navigation } = props;
-  const [textValue, setTextValue] = useState('');
-  const [numValue, setNumValue] = useState('');
-  const [textareaValue, setTextareaValue] = useState('');
-
-  const buttonPressHandler = () => {
-    alert('button is pressed');
-    navigation.navigate('Lists', { id: 2, otherParam: Math.floor(Math.random() * 100) });
+const Tab = createBottomTabNavigator();
+const RootBasicComponent = () => {
+  const getTabIcon = ({ route, focused, color, size }) => {
+    const iconColor = focused ? 'tomato' : color;
+    switch (route.name) {
+      case 'FormInput':
+        return <Ionicons name="ios-information-circle" size={size} color={iconColor} />;
+      case 'TextArea':
+        return <Ionicons name="document-text" size={size} color={iconColor} />;
+      case 'Image':
+        return <Ionicons name="image" size={size} color={iconColor} />;
+      case 'Button':
+      default:
+        return <Ionicons name="aperture" size={size} color={iconColor} />;
+    }
   };
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        enabled
-      >
-        <ImageBackground
-          source={require('../../assets/abstract.jpeg')}
-          resizeMode="cover"
-          style={styles.image}
-        >
-          <View style={styles.container}>
-            <View style={styles.button}>
-              <Button title="A button component" onPress={buttonPressHandler} />
-            </View>
-            <Image
-              accessibilityLabel="racoon"
-              source={require('../../assets/racoon.jpeg')}
-              style={styles.imageStyles}
-            />
-            <TextInput
-              onChangeText={setTextValue}
-              value={textValue}
-              style={styles.textStyle}
-              placeholder="Useless placeholder"
-            />
-            <TextInput
-              onChangeText={setNumValue}
-              value={numValue}
-              style={styles.textStyle}
-              placeholder="Useless placeholder"
-              keyboardType="number-pad"
-            />
-            <View style={globalStyles.textAreaStyle}>
-              <TextInput
-                value={textareaValue}
-                onChangeText={setTextareaValue}
-                multiline={true}
-                placeholder="Write multi lines"
-              />
-            </View>
-            <Text>You entered : {textareaValue}</Text>
-            <Text>This is a basic Text component</Text>
-          </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
-    </ScrollView>
+    <Tab.Navigator
+      screenOptions={({ route }) => {
+        return {
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+          tabBarIcon: ({ focused, color, size }) => getTabIcon({ route, focused, color, size }),
+        };
+      }}
+    >
+      <Tab.Screen name="Button" component={ButtonScreen} />
+      <Tab.Screen name="FormInput" component={TextScreen} />
+      <Tab.Screen name="Textarea" component={TextAreaScreen} />
+      <Tab.Screen name="Image" component={ImageScreen} />
+    </Tab.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: globalStyles.screenCenter,
-  textStyle: globalStyles.input,
-  button: {
-    marginVertical: 10,
-  },
-  imageStyles: {
-    width: 100,
-    height: 100,
-    resizeMode: 'stretch',
-  },
-});
-
-export default BasicComponents;
+export default RootBasicComponent;
